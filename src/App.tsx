@@ -14,6 +14,18 @@ interface AppProps {}
 //TODO - TABSWITCH
 //FIXME - doesn't draw new colors on timer end
 
+function getBestScore() {
+  const bestScore = localStorage.getItem("bestScore");
+  if (bestScore) {
+    return parseInt(bestScore);
+  }
+  return 0;
+}
+
+function setBestScore(score: number) {
+  localStorage.setItem("bestScore", score.toString());
+}
+
 // eslint-disable-next-line no-empty-pattern
 const App: FC<AppProps> = ({}) => {
   const [hexValues, setHexValues] = useState<string[]>([]);
@@ -54,9 +66,12 @@ const App: FC<AppProps> = ({}) => {
   //useeffect to track user lives and react if there is game over
   useEffect(() => {
     if (lives === 0) {
+      if (score > getBestScore()) {
+        setBestScore(score);
+      }
       setGameOver(true);
     }
-  }, [lives]);
+  }, [lives, score]);
 
   const handleStart = () => {
     setIsStarted(true);
@@ -106,6 +121,8 @@ const App: FC<AppProps> = ({}) => {
           <h1 className={"text-3xl font-bold"}>Game Over</h1>
           <h1> Your score is </h1>
           <h1 className={"text-3xl font-bold"}>{score}</h1>
+          <h1> Best score is </h1>
+          <h1 className={"text-3xl font-bold"}>{getBestScore()}</h1>
 
           <button
             className={

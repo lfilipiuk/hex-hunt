@@ -8,7 +8,7 @@ const GameContext = createContext({
   round: 1,
   roundTime: 15,
   setScore: (score: number) => {},
-  setRoundTime: (roundTime: (prevTimeLeft: any) => number | number) => {},
+  setRoundTime: (roundTime: (prevTimeLeft: any) => number) => {},
   resetGame: () => {},
   minusLife: () => {},
   resetTimer: () => {},
