@@ -99,12 +99,12 @@ const App: FC<AppProps> = () => {
   return (
     <div className={""}>
       <div className={"flex flex-col select-none h-screen items-center"}>
-        <section className={"mx-auto basis-1/4 py-16"}>
+        <section className={"md:basis-1/4 basis-1/12 md:py-16 py-8"}>
           <Logo />
         </section>
 
-        <section className={"basis-1/3"}>
-          <div className={"mx-auto flex flex-col items-center"}>
+        <section className={"md:basis-full flex flex-col items-center"}>
+          <div className={"mx-auto flex flex-col items-center order-1"}>
             <h3 className={"text-gray-400 text-xl"}>Which one is</h3>
             <h1 className={"text-6xl py-5 font-semibold block h-28"}>
               {correctAnswer}
@@ -113,7 +113,7 @@ const App: FC<AppProps> = () => {
 
           <div
             className={
-              "grid xl:grid-cols-4 lg:grid-cols-2 gap-4 mx-auto mt-10 items-center justify-center"
+              "grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-10 items-center justify-center md:w-full w-auto order-3"
             }
           >
             <AnimatePresence initial={false} mode={"sync"}>
@@ -136,17 +136,19 @@ const App: FC<AppProps> = () => {
               ))}
             </AnimatePresence>
           </div>
-        </section>
 
-        <section className={"basis-1/3 w-96"}>
-          <div className={"text-2xl h-full grid grid-cols-2 items-end py-16"}>
-            <h3 className={""}>Score: {score}</h3>
-            <h3 className={"flex"}>
-              Lives:
-              <div>
-                <Hearts lives={lives} />
-              </div>
-            </h3>
+          <div className={"basis-full w-96 order-2 md:order-3"}>
+            <div
+              className={"text-2xl h-full grid grid-cols-2 items-end md:py-16"}
+            >
+              <h3 className={""}>Score: {score}</h3>
+              <h3 className={"flex"}>
+                Lives:
+                <div>
+                  <Hearts lives={lives} />
+                </div>
+              </h3>
+            </div>
           </div>
         </section>
       </div>

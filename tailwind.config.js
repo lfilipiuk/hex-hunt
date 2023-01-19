@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        skyblue: "#06B6D4",
+      },
+    },
     fontFamily: {
       sans: ["Montserrat", "sans-serif"],
     },
