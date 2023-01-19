@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { getColor, getRandomHexColor } from "./helpers/hexHelpers";
 import { ColorCard } from "./components/ColorCard";
 import { Hearts } from "./components/Hearts";
@@ -22,10 +22,31 @@ function setBestScore(score: number) {
   localStorage.setItem("bestScore", score.toString());
 }
 
+function AnswerPopup(props: { show: boolean; children: ReactNode }) {
+  return (
+    <AnimatePresence>
+      {props.show && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h1 className={"text-2xl font-medium bg-white p-3 rounded-full"}>
+            {props.children}
+          </h1>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 const App: FC<AppProps> = () => {
   const [hexValues, setHexValues] = useState<string[]>([]);
   const [gameOver, setGameOver] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
+  const [correct, setCorrect] = useState(false);
+  const [wrong, setWrong] = useState(false);
 
   const {
     lives,
@@ -90,16 +111,32 @@ const App: FC<AppProps> = () => {
   const handleAnswer = (answer: string) => {
     if (answer === correctAnswer) {
       setScore(score + 100);
+      handleCorrectAnswer();
     } else {
       minusLife();
+      handleWrongAnswer();
     }
     handleRound();
   };
 
+  function handleCorrectAnswer() {
+    setCorrect(true);
+    setTimeout(() => {
+      setCorrect(false);
+    }, 500);
+  }
+
+  function handleWrongAnswer() {
+    setWrong(true);
+    setTimeout(() => {
+      setWrong(false);
+    }, 500);
+  }
+
   return (
     <div className={""}>
       <div className={"flex flex-col select-none h-screen items-center"}>
-        <section className={"md:basis-1/4 basis-1/12 md:py-16 py-8"}>
+        <section className={"md:basis-1/4 basis-1/12 md:py-16 pt-8 pb-4"}>
           <Logo />
         </section>
 
@@ -143,7 +180,18 @@ const App: FC<AppProps> = () => {
 
           <div className={"basis-full w-full max-w-sm order-2 md:order-3"}>
             <div
-              className={"text-2xl h-full grid grid-cols-2 items-end md:py-16"}
+              className={
+                "absolute left-1/2 md:bottom-28 transform -translate-x-1/2 -translate-y-32 md:-translate-y-0"
+              }
+            >
+              <AnswerPopup show={correct}>✅ Correct!</AnswerPopup>
+              <AnswerPopup show={wrong}>❌ Wrong!</AnswerPopup>
+            </div>
+
+            <div
+              className={
+                "text-2xl h-full grid grid-cols-2 items-end justify-items-start md:py-16"
+              }
             >
               <h3 className={""}>Score: {score}</h3>
               <h3 className={"flex"}>
@@ -176,7 +224,7 @@ const App: FC<AppProps> = () => {
               transition: { duration: roundTime, ease: "linear" },
             }}
             onAnimationComplete={() => {
-              minusLife();
+              // minusLife();
               handleRound();
             }}
           />
