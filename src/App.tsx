@@ -108,7 +108,7 @@ const App: FC<AppProps> = () => {
             <h3 className={"text-gray-400 text-xl"}>Which one is</h3>
             <h1
               className={
-                "md:text-6xl text-5xl md:py-5 my-4 font-semibold block md:h-28"
+                "md:text-6xl text-5xl md:py-5 my-2 font-semibold block md:h-28"
               }
             >
               {correctAnswer}
@@ -117,7 +117,7 @@ const App: FC<AppProps> = () => {
 
           <div
             className={
-              "grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-10 items-center justify-center md:w-full w-auto order-3"
+              "grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 md:mt-10 mt-6 items-center justify-center md:w-full w-auto order-3"
             }
           >
             <AnimatePresence initial={false} mode={"sync"}>
