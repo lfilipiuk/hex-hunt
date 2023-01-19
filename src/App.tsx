@@ -145,7 +145,7 @@ const App: FC<AppProps> = () => {
             <h3 className={"text-gray-400 text-xl"}>Which one is</h3>
             <h1
               className={
-                "md:text-6xl text-5xl md:py-5 my-2 font-semibold block md:h-28"
+                "md:text-6xl text-5xl md:py-5 my-2 font-semibold block md:h-28 h-14"
               }
             >
               {correctAnswer}
