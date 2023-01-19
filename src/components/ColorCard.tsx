@@ -17,13 +17,14 @@ export function ColorCard(props: {
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
       onTap={handleClick}
       className={
-        "md:h-80 h-36 w-96 md:w-64 md:m-4 cursor-pointer shadow-xl relative p-3 md:p-2 bg-white flex flex-row-reverse md:flex-col items-center justify-between md:justify-center"
+        "md:h-80 h-24 w-80 md:w-64 md:m-4 cursor-pointer shadow-xl relative md:p-2 p-2 bg-white flex flex-row-reverse " +
+        "md:flex-col items-center justify-between md:justify-center"
       }
     >
       <div
-        className={"md:h-4/5 h-full w-full basis-1/3 md:basis-4/5"}
+        className={"md:h-4/5 w-full h-20 basis-1/4 md:basis-4/5"}
         style={{ backgroundColor: props.backgroundColor }}
-      ></div>
+      />
       <h3
         className={
           "text-lg font-semibold text-gray-800 md:text-center py-5 basis-2/3 md:basis-1/5"

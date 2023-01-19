@@ -106,7 +106,11 @@ const App: FC<AppProps> = () => {
         <section className={"md:basis-full flex flex-col items-center"}>
           <div className={"mx-auto flex flex-col items-center order-1"}>
             <h3 className={"text-gray-400 text-xl"}>Which one is</h3>
-            <h1 className={"text-6xl py-5 font-semibold block h-28"}>
+            <h1
+              className={
+                "md:text-6xl text-5xl md:py-5 my-4 font-semibold block md:h-28"
+              }
+            >
               {correctAnswer}
             </h1>
           </div>
@@ -137,7 +141,7 @@ const App: FC<AppProps> = () => {
             </AnimatePresence>
           </div>
 
-          <div className={"basis-full w-96 order-2 md:order-3"}>
+          <div className={"basis-full w-full max-w-sm order-2 md:order-3"}>
             <div
               className={"text-2xl h-full grid grid-cols-2 items-end md:py-16"}
             >
@@ -165,18 +169,18 @@ const App: FC<AppProps> = () => {
         <>
           <motion.div
             key={round}
-            className="h-4 w-full fixed bottom-0 bg-sky-500"
+            className="h-4 w-full fixed inset-x-0 top-0 md:bottom-0 md:top-auto bg-sky-500"
             initial={{ width: "100%" }}
             animate={{
               width: 0,
               transition: { duration: roundTime, ease: "linear" },
             }}
             onAnimationComplete={() => {
-              // minusLife();
+              minusLife();
               handleRound();
             }}
           />
-          <div className="fixed -z-10 bg-gray-300 w-full h-4 bottom-0" />
+          <div className="fixed -z-10 bg-gray-300 w-full h-4 inset-x-0 md:bottom-0 md:top-auto top-0" />
         </>
       )}
     </div>
