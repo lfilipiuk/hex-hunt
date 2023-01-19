@@ -1,18 +1,14 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { getColor, getRandomHexColor } from "./helpers/hexHelpers";
 import { ColorCard } from "./components/ColorCard";
-import { Timer } from "./components/Timer";
 import { Hearts } from "./components/Hearts";
 import { useGame } from "./context/context";
-import { Logo } from "./components/Logo";
 import { AnimatePresence, motion } from "framer-motion";
-import { Intro } from "./components/Intro";
-import { ROUND_TIME } from "./helpers/config";
+import { GameOverModal } from "./components/GameOverModal";
+import { StartModal } from "./components/StartModal";
+import { Logo } from "./components/Logo";
 
 interface AppProps {}
-
-//TODO - TABSWITCH
-//FIXME - doesn't draw new colors on timer end
 
 function getBestScore() {
   const bestScore = localStorage.getItem("bestScore");
@@ -26,8 +22,7 @@ function setBestScore(score: number) {
   localStorage.setItem("bestScore", score.toString());
 }
 
-// eslint-disable-next-line no-empty-pattern
-const App: FC<AppProps> = ({}) => {
+const App: FC<AppProps> = () => {
   const [hexValues, setHexValues] = useState<string[]>([]);
   const [gameOver, setGameOver] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
@@ -75,6 +70,7 @@ const App: FC<AppProps> = ({}) => {
 
   const handleStart = () => {
     setIsStarted(true);
+    clearColors();
   };
 
   const handleRetry = () => {
@@ -101,75 +97,25 @@ const App: FC<AppProps> = ({}) => {
   };
 
   return (
-    <div>
-      {!isStarted ? (
-        <div className={"flex flex-col items-center justify-center gap-4"}>
+    <div className={""}>
+      <div className={"flex flex-col select-none h-screen items-center"}>
+        <section className={"mx-auto basis-1/4 py-16"}>
           <Logo />
-          <h1 className={"text-3xl font-bold"}>Hex Hunt</h1>
-          <button
-            className={
-              "bg-blue-600 text-white p-4 rounded-xl shadow-xl w-40 uppercase"
-            }
-            onClick={handleStart}
-          >
-            Start
-          </button>
-          <Intro />
-        </div>
-      ) : gameOver ? (
-        <div className={"flex flex-col items-center justify-center gap-4"}>
-          <h1 className={"text-3xl font-bold"}>Game Over</h1>
-          <h1> Your score is </h1>
-          <h1 className={"text-3xl font-bold"}>{score}</h1>
-          <h1> Best score is </h1>
-          <h1 className={"text-3xl font-bold"}>{getBestScore()}</h1>
+        </section>
 
-          <button
-            className={
-              "bg-blue-600 text-white p-4 rounded-xl shadow-xl w-40 uppercase"
-            }
-            onClick={handleRetry}
-          >
-            Retry
-          </button>
-        </div>
-      ) : (
-        <div className={"mx-auto w-2/3 py-12"}>
-          <motion.progress
-            key={round}
-            className="h-8 bg-blue-200 w-full"
-            initial={{ width: "100%" }}
-            animate={{
-              width: 0,
-              transition: { duration: roundTime, ease: "linear" },
-            }}
-            onAnimationComplete={() => {
-              minusLife();
-              handleRound();
-            }}
-            max={ROUND_TIME}
-          />
-          <div className={"flex justify-between"}>
-            <div className={"flex flex-col text-2xl"}>
-              {/*<Timer onTimeUp={minusLife} />*/}
-              {/*<h3>Round: {round}</h3>*/}
-              <h3 className={"flex"}>
-                Lives:
-                <div>
-                  <Hearts lives={lives} />
-                </div>
-              </h3>
-              <h3>Score: {score}</h3>
-            </div>
-          </div>
-
-          <div className={"flex flex-col justify-center items-center"}>
+        <section className={"basis-1/3"}>
+          <div className={"mx-auto flex flex-col items-center"}>
+            <h3 className={"text-gray-400 text-xl"}>Which one is</h3>
             <h1 className={"text-6xl py-5 font-semibold block h-28"}>
               {correctAnswer}
             </h1>
           </div>
 
-          <div className={"flex items-center justify-center"}>
+          <div
+            className={
+              "grid xl:grid-cols-4 lg:grid-cols-2 gap-4 mx-auto mt-10 items-center justify-center"
+            }
+          >
             <AnimatePresence initial={false} mode={"sync"}>
               {hexValues.map((hexValue) => (
                 <motion.div
@@ -190,7 +136,46 @@ const App: FC<AppProps> = ({}) => {
               ))}
             </AnimatePresence>
           </div>
-        </div>
+        </section>
+
+        <section className={"basis-1/3 w-96"}>
+          <div className={"text-2xl h-full grid grid-cols-2 items-end py-16"}>
+            <h3 className={""}>Score: {score}</h3>
+            <h3 className={"flex"}>
+              Lives:
+              <div>
+                <Hearts lives={lives} />
+              </div>
+            </h3>
+          </div>
+        </section>
+      </div>
+
+      {!isStarted ? (
+        <StartModal onClick={handleStart} />
+      ) : gameOver ? (
+        <GameOverModal
+          score={score}
+          bestScore={getBestScore()}
+          onClick={handleRetry}
+        />
+      ) : (
+        <>
+          <motion.div
+            key={round}
+            className="h-4 w-full fixed bottom-0 bg-sky-500"
+            initial={{ width: "100%" }}
+            animate={{
+              width: 0,
+              transition: { duration: roundTime, ease: "linear" },
+            }}
+            onAnimationComplete={() => {
+              // minusLife();
+              handleRound();
+            }}
+          />
+          <div className="fixed -z-10 bg-gray-300 w-full h-4 bottom-0" />
+        </>
       )}
     </div>
   );
