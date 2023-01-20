@@ -4,7 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        skyblue: "#06B6D4",
+        skyblue: {
+          DEFAULT: "#06B6D4",
+          dark: "#06a8c4",
+        },
       },
     },
     fontFamily: {
