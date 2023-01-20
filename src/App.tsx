@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { getColor, getRandomHexColor } from "./helpers/hexHelpers";
 import { ColorCard } from "./components/ColorCard";
 import { Hearts } from "./components/Hearts";
@@ -7,6 +7,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GameOverModal } from "./components/GameOverModal";
 import { StartModal } from "./components/StartModal";
 import { Logo } from "./components/Logo";
+import { AnswerPopup } from "./components/AnswerPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSquareCheck,
+  faSquareXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface AppProps {}
 
@@ -20,25 +26,6 @@ function getBestScore() {
 
 function setBestScore(score: number) {
   localStorage.setItem("bestScore", score.toString());
-}
-
-function AnswerPopup(props: { show: boolean; children: ReactNode }) {
-  return (
-    <AnimatePresence>
-      {props.show && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h1 className={"text-2xl font-medium bg-white p-3 rounded-full"}>
-            {props.children}
-          </h1>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
 }
 
 const App: FC<AppProps> = () => {
@@ -159,13 +146,7 @@ const App: FC<AppProps> = () => {
           >
             <AnimatePresence initial={false} mode={"sync"}>
               {hexValues.map((hexValue) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 0 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  // exit={{ opacity: 0, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  key={hexValue}
-                >
+                <motion.div layout key={hexValues.indexOf(hexValue)}>
                   <ColorCard
                     key={hexValue}
                     backgroundColor={hexValue}
@@ -184,8 +165,13 @@ const App: FC<AppProps> = () => {
                 "absolute left-1/2 md:bottom-28 transform -translate-x-1/2 -translate-y-32 md:-translate-y-0"
               }
             >
-              <AnswerPopup show={correct}>✅ Correct!</AnswerPopup>
-              <AnswerPopup show={wrong}>❌ Wrong!</AnswerPopup>
+              <AnswerPopup show={correct}>
+                <FontAwesomeIcon icon={faSquareCheck} color={"#1abb1a"} />{" "}
+                Correct!
+              </AnswerPopup>
+              <AnswerPopup show={wrong}>
+                <FontAwesomeIcon icon={faSquareXmark} color={"#f00"} /> Wrong!
+              </AnswerPopup>
             </div>
 
             <div
@@ -196,7 +182,7 @@ const App: FC<AppProps> = () => {
               <h3 className={""}>Score: {score}</h3>
               <h3 className={"flex"}>
                 Lives:
-                <div>
+                <div className={"mx-1"}>
                   <Hearts lives={lives} />
                 </div>
               </h3>
@@ -224,7 +210,7 @@ const App: FC<AppProps> = () => {
               transition: { duration: roundTime, ease: "linear" },
             }}
             onAnimationComplete={() => {
-              // minusLife();
+              minusLife();
               handleRound();
             }}
           />
