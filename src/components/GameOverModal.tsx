@@ -15,7 +15,7 @@ export const GameOverModal: FC<GameOverProps> = ({
 }) => {
   return (
     <AnimatePresence>
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 absolute z-10 backdrop-blur-lg">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 absolute z-10 backdrop-blur-lg select-none">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
