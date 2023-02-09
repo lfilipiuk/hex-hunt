@@ -1,4 +1,4 @@
-[![logo.png](public%2Flogo.png)](https://hexhunter.lukaszfilipiuk.com/)
+[![logo.png](public%2Flogo.svg)](https://hexhunter.lukaszfilipiuk.com/)
 
 
 HexHunter is a web-based color guessing game optimized for both desktop and mobile browsers.
