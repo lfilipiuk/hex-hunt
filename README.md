@@ -1,4 +1,4 @@
-[![logo.png](public%2Flogo.svg)](https://hexhunter.lukaszfilipiuk.com/)
+[![logo.svg](public%2Flogo.svg)](https://hexhunter.lukaszfilipiuk.com/)
 
 
 HexHunter is a web-based color guessing game optimized for both desktop and mobile browsers.
@@ -20,6 +20,8 @@ Scores are stored in local storage.
 ![mockup1.png](public%2Fmockup1.png)
 
 ![mockup2.png](public%2Fmockup2.png)
+
+![presentation.gif](public%2Fpresentation.gif)
 
 ## Technologies Used
 - React
