@@ -1,21 +1,35 @@
-import { ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { FC, ReactNode } from "react";
+import { AnimatePresence, motion, Transition, Variants } from "framer-motion";
 
-export function AnswerPopup(props: { show: boolean; children: ReactNode }) {
+interface AnswerPopupProps {
+  show: boolean;
+  children: ReactNode;
+}
+
+const motionVariants: Variants = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+};
+
+const transition: Transition = { duration: 0.3 };
+
+export const AnswerPopup: FC<AnswerPopupProps> = ({ show, children }) => {
   return (
     <AnimatePresence>
-      {props.show && (
+      {show && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={motionVariants}
+          transition={transition}
         >
-          <h1 className={"text-2xl font-medium bg-white p-3 rounded-full"}>
-            {props.children}
+          <h1 className="text-2xl font-medium bg-white p-3 rounded-full">
+            {children}
           </h1>
         </motion.div>
       )}
     </AnimatePresence>
   );
-}
+};

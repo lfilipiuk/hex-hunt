@@ -1,12 +1,20 @@
 import { FC } from "react";
 import { Logo } from "./Logo";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Transition, Variants } from "framer-motion";
 
 interface GameOverProps {
   score: number;
   bestScore: number;
   onClick: () => void;
 }
+
+const variants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+};
+
+const transition: Transition = { duration: 0.5 };
 
 export const GameOverModal: FC<GameOverProps> = ({
   score,
@@ -15,12 +23,13 @@ export const GameOverModal: FC<GameOverProps> = ({
 }) => {
   return (
     <AnimatePresence>
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 absolute z-10 backdrop-blur-lg select-none">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10 backdrop-blur-lg select-none">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.5 }}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={variants}
+          transition={transition}
           className="bg-white max-w-xl w-full h-96 flex flex-col items-center justify-center rounded-3xl px-30 gap-5 md:p-0 m-4"
         >
           <Logo />

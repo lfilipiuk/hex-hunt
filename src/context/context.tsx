@@ -1,8 +1,20 @@
-//create game context - lives, score, level, etc
 import React, { createContext, FC, useContext, useState } from "react";
 import { ROUND_TIME } from "../helpers/config";
 
-const GameContext = createContext({
+interface GameContextValue {
+  lives: number;
+  score: number;
+  round: number;
+  roundTime: number;
+  setScore: (score: number) => void;
+  setRoundTime: (roundTime: (prevTimeLeft: any) => number) => void;
+  resetGame: () => void;
+  minusLife: () => void;
+  resetTimer: () => void;
+  increaseRound: () => void;
+}
+
+const GameContext = createContext<GameContextValue>({
   lives: 3,
   score: 0,
   round: 1,
@@ -27,7 +39,7 @@ export const GameProvider: FC<GameProviderProps> = ({ children }) => {
   const [lives, setLives] = useState(3);
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);
-  const [roundTime, setRoundTime] = useState(15);
+  const [roundTime, setRoundTime] = useState(ROUND_TIME);
 
   const resetGame = () => {
     setLives(3);
