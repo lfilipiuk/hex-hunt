@@ -29,6 +29,8 @@ Scores are stored in local storage.
 - Context API
 - Tailwind
 - Framer Motion
+- Testing Library
+- Jest
 
 ## Installation
 - Clone the repository using `https://github.com/lfilipiuk/hex-hunt.git`
